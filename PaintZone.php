@@ -70,6 +70,33 @@ class PaintZone
         return $lines;
     }
 
+    public function isSquare($x, $y, $size) {
+        for ($i = $x; $i < $x + $size; $i ++) {
+            for ($j = $y; $j < $y + $size; $j++) {
+                if ($this->_($x, $y) != '#') {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+    public function findSquares($x, $y)
+    {
+        $squares = [];
+        $size = 1;
+        if ($this->_($x, $y) == '#') {
+            while($this->isSquare($x, $y, $size)) {
+                $size++;
+            }
+            if ($size > 1) {
+                $squares[] = new Square($x, $y, $x + $size, $y + $size, $size*$size);
+            }
+        }
+
+
+        return $squares;
+    }
+
     public function applyLine(Line $l)
     {
         for ($x = $l->x1; $x <= $l->x2; $x++) {
@@ -93,12 +120,16 @@ class PaintZone
         return true;
     }
 
-    public function findSquares($x, $y)
+    public function findAllSquares()
     {
-        // From this pixel go right and down
-        // While we can build a square
-        // If there is not a wall, stop
-        // If there is not a wall compute cost of making it cleared
+        $squares = [];
+        for ($x = 0; $x < $this->M; $x++) {
+            for ($y = 0; $y < $this->N; $y++) {
+                $squares = array_merge($squares, $this->findSquares($x, $y));
+            }
+        }
+
+        return $squares;
     }
 
     public function combine(PaintZone $b)

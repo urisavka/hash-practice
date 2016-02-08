@@ -17,6 +17,7 @@ class Painter
     public function work()
     {
         $lines = $this->basicZone->findAllLines();
+        $lines = array_merge($lines, $this->basicZone->findAllSquares());
         usort(
             $lines,
             function ($l1, $l2) {

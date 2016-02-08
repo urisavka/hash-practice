@@ -9,7 +9,7 @@ function __autoload($class_name)
     include $class_name.'.php';
 }
 
-$fileName = @$argv[1] ?: 'input.txt';
+$fileName = @$argv[1] ?: 'learn_and_teach.in';
 $zone = new PaintZone();
 $zone->read($fileName);
 $painter = new Painter($zone);
